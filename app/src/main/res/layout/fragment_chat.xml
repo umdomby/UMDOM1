@@ -1,0 +1,115 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+  xmlns:tools="http://schemas.android.com/tools"
+  android:layout_width="match_parent"
+  android:layout_height="match_parent"
+  tools:context=".ChatFragment">
+
+  <!-- TODO: Update blank fragment layout -->
+  <Button
+      android:id="@+id/btnControl"
+      android:layout_width="match_parent"
+      android:layout_height="80dp"
+      android:background="@color/colorGreenApp"
+      android:onClick="onControlClick"
+      android:text="START"
+      android:textColor="@android:color/white"
+
+      android:textSize="36sp" />
+
+  <TextView
+      android:id="@+id/textView"
+      android:layout_width="match_parent"
+      android:layout_height="80dp"
+      android:layout_marginTop="80dp"
+      android:background="@color/colorDarkApp"
+      android:gravity="center_horizontal"
+      android:paddingTop="15dp"
+      android:text="ХОЛЛ"
+      android:textColor="@android:color/white"
+      android:textSize="36sp"
+      android:textStyle="bold" />
+
+  <ImageButton
+      android:id="@+id/ImageButton2"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_alignParentRight="true"
+      android:layout_marginTop="380dp"
+      android:layout_marginRight="20dp"
+      android:background="@android:color/transparent"
+       />
+
+  <ImageButton
+      android:id="@+id/ImageButton3"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_alignParentRight="true"
+      android:layout_marginTop="460dp"
+      android:layout_marginRight="20dp"
+      android:background="@android:color/transparent"
+       />
+
+  <ImageButton
+      android:id="@+id/ImageButton4"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_alignParentRight="true"
+      android:layout_marginTop="540dp"
+      android:layout_marginRight="20dp"
+      android:background="@android:color/transparent"
+       />
+
+  <ImageView
+      android:id="@+id/imageView"
+      android:layout_width="60dp"
+      android:layout_height="60dp"
+      android:layout_marginTop="180dp"
+      android:layout_marginLeft="10dp"
+
+      />
+
+  <TextView
+      android:id="@+id/textBluetooth"
+      android:layout_width="match_parent"
+      android:layout_marginTop="600dp"
+      android:layout_height="20dp"
+      android:text="TextView"
+      android:textSize="10sp" />
+
+  <TextView
+      android:id="@+id/textServerClient"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:layout_marginTop="620dp"
+      android:text="TextView222222" />
+
+  <TextView
+      android:id="@+id/tvStatus"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_marginTop="16dp"
+      android:text="Status"
+      android:textColor="#000"
+      android:textSize="18sp" />
+
+  <TextView
+      android:id="@+id/tvTimer"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_marginTop="32dp"
+      android:text="Timer: "
+      android:textColor="#000"
+      android:textSize="18sp" />
+
+  <TextView
+      android:id="@+id/tvResponse"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_marginLeft="16dp"
+      android:layout_marginTop="16dp"
+      android:text="Response: "
+      android:textColor="#000"
+      android:textSize="18sp" />
+
+
+</RelativeLayout>
