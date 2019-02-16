@@ -18,7 +18,6 @@ import org.greenrobot.eventbus.ThreadMode;
 import me.vshat.androidserver.event.BluetoothEvent;
 import me.vshat.androidserver.event.ClientEvent;
 import me.vshat.androidserver.event.ServerEvent;
-import me.vshat.androidserver.event.TimerEvent;
 import me.vshat.androidserver.server.ServerState;
 import me.vshat.androidserver.server.ServerStateChangedEvent;
 import me.vshat.androidserver.service.MyServiceBluetooth;
@@ -28,7 +27,7 @@ import me.vshat.androidserver.service.ServerService;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class HolFragment extends Fragment {
+public class FragmentHol extends Fragment {
 
 
     //UMDOM1
@@ -63,10 +62,9 @@ public class HolFragment extends Fragment {
         textViewStatus = getActivity().findViewById(R.id.tvStatus);
         textBluetooth = getActivity().findViewById(R.id.textBluetooth);
         buttonControl = getActivity().findViewById(R.id.btnControl);
-        textViewTimer = getActivity().findViewById(R.id.tvTimer);
-        textViewResponse = getActivity().findViewById(R.id.tvResponse);
+        //textViewTimer = getActivity().findViewById(R.id.tvTimer);
+        //textViewResponse = getActivity().findViewById(R.id.tvResponse);
         textServerClient = getActivity().findViewById(R.id.textServerClient);
-        ImageButton2 = getActivity().findViewById(R.id.ImageButton2);
         detectStatus();
 
         buttonControl.setOnClickListener(new View.OnClickListener() {
@@ -120,35 +118,22 @@ public class HolFragment extends Fragment {
     //Ответ от сервиса
     @Subscribe(sticky = true, threadMode = ThreadMode.MAIN)
     public void onEvent(ServerEvent event) {
-        textViewResponse.setText("Ответ сервиса: " + event.getData());
-        textServerClient.setText("Данные клиента: " + event.getData());
+        //textViewResponse.setText("Ответ сервиса: " + event.getData());
+        //textServerClient.setText("Данные клиента: " + event.getData());
     }
 
     //Таймер
-    @Subscribe(sticky = true, threadMode = ThreadMode.MAIN)
-    public void onEvent(TimerEvent event) {
-        //получение таймера из сервиса
-        textViewTimer.setText("Таймер: " + event.getData());
-    }
+//    @Subscribe(sticky = true, threadMode = ThreadMode.MAIN)
+//    public void onEvent(TimerEvent event) {
+//        //получение таймера из сервиса
+//        //textViewTimer.setText("Таймер: " + event.getData());
+//    }
 
     //Bluetooth данные
     @Subscribe(sticky = true, threadMode = ThreadMode.MAIN)
     public void onEvent(BluetoothEvent event) {
         textBluetooth.setText("Bluetooth: " + event.getData());
     }
-
-    //Кнопка запуска сервиса
-//    public void onControlClick(View view) {
-//                if(serverState == ServerState.RUNNING) {
-//                    ServerService.interrupt(); //прерывание
-//                    getActivity().stopService(new Intent(getActivity(), MyServiceBluetooth.class));
-//
-//                } else {
-//                    ServerService.start(getActivity());
-//
-//                    getActivity().startService(new Intent(getActivity(), MyServiceBluetooth.class));
-//                }
-//    }
 
     //Опубликовать события
     public void onActionClick(View view) {

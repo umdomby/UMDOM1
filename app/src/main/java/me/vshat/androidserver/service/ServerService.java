@@ -30,7 +30,7 @@ public class ServerService extends Service implements OnServerStateChangedListen
 
     private NotificationHelper notificationHelper;
     private Server server;
-    private TimerThread timerThread;
+
 
     public static void start(Context context) {
         Intent starter = new Intent(context, ServerService.class);
@@ -101,10 +101,6 @@ public class ServerService extends Service implements OnServerStateChangedListen
         if(server != null) {
             server.stopServer();
         }
-
-        if(timerThread != null) {
-            timerThread.interrupt();
-        }
     }
 
     //ответ от сервиса сервера или приём данных
@@ -125,9 +121,6 @@ public class ServerService extends Service implements OnServerStateChangedListen
     private void main() {
         server = new Server(this);
         server.start();
-
-        timerThread = new TimerThread();
-        timerThread.start();
     }
 
     @Override

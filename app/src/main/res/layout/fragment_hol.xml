@@ -2,9 +2,19 @@
   xmlns:tools="http://schemas.android.com/tools"
   android:layout_width="match_parent"
   android:layout_height="match_parent"
-  tools:context=".ChatFragment">
+  tools:context=".FragmentHol">
 
   <!-- TODO: Update blank fragment layout -->
+
+  <TextView
+      android:id="@+id/tvStatus"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_marginTop="0dp"
+      android:text="offline"
+      android:textColor="#000"
+      android:textSize="18sp" />
+
   <Button
       android:id="@+id/btnControl"
       android:layout_width="match_parent"
@@ -12,47 +22,8 @@
       android:background="@color/colorGreenApp"
       android:text="START"
       android:textColor="@android:color/white"
-
       android:textSize="36sp" />
 
-  <ImageButton
-      android:id="@+id/ImageButton2"
-      android:layout_width="wrap_content"
-      android:layout_height="wrap_content"
-      android:layout_alignParentRight="true"
-      android:layout_marginTop="380dp"
-      android:layout_marginRight="20dp"
-      android:background="@android:color/transparent"
-       />
-
-  <ImageButton
-      android:id="@+id/ImageButton3"
-      android:layout_width="wrap_content"
-      android:layout_height="wrap_content"
-      android:layout_alignParentRight="true"
-      android:layout_marginTop="460dp"
-      android:layout_marginRight="20dp"
-      android:background="@android:color/transparent"
-       />
-
-  <ImageButton
-      android:id="@+id/ImageButton4"
-      android:layout_width="wrap_content"
-      android:layout_height="wrap_content"
-      android:layout_alignParentRight="true"
-      android:layout_marginTop="540dp"
-      android:layout_marginRight="20dp"
-      android:background="@android:color/transparent"
-       />
-
-  <ImageView
-      android:id="@+id/imageView"
-      android:layout_width="60dp"
-      android:layout_height="60dp"
-      android:layout_marginTop="180dp"
-      android:layout_marginLeft="10dp"
-
-      />
 
   <TextView
       android:id="@+id/textBluetooth"
@@ -69,33 +40,10 @@
       android:layout_marginTop="520dp"
       android:text="TextView222222" />
 
-  <TextView
-      android:id="@+id/tvStatus"
-      android:layout_width="wrap_content"
-      android:layout_height="wrap_content"
-      android:layout_marginTop="16dp"
-      android:text="Status"
-      android:textColor="#000"
-      android:textSize="18sp" />
 
-  <TextView
-      android:id="@+id/tvTimer"
-      android:layout_width="wrap_content"
-      android:layout_height="wrap_content"
-      android:layout_marginTop="32dp"
-      android:text="Timer: "
-      android:textColor="#000"
-      android:textSize="18sp" />
 
-  <TextView
-      android:id="@+id/tvResponse"
-      android:layout_width="wrap_content"
-      android:layout_height="wrap_content"
-      android:layout_marginLeft="16dp"
-      android:layout_marginTop="16dp"
-      android:text="Response: "
-      android:textColor="#000"
-      android:textSize="18sp" />
+
+
 
 
 </RelativeLayout>

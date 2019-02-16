@@ -11,7 +11,7 @@ import android.view.ViewGroup;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class RoomsFragment extends Fragment {
+public class FragmentRooms extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,

@@ -21,6 +21,10 @@ public class MainActivity extends AppCompatActivity {
     TabItem tabStatus;
     TabItem tabCalls;
 
+    TabItem tabCanteen;
+    TabItem tabBase;
+    TabItem tabOutside;
+
 
 
     @Override
@@ -37,6 +41,10 @@ public class MainActivity extends AppCompatActivity {
         tabCalls = findViewById(R.id.tabCalls);
         viewPager = findViewById(R.id.viewPager);
 
+        tabCanteen = findViewById(R.id.tabCanteen);
+        tabBase = findViewById(R.id.tabBase);
+        tabOutside = findViewById(R.id.tabOutside);
+
         pageAdapter = new PageAdapter(getSupportFragmentManager(), tabLayout.getTabCount());
         viewPager.setAdapter(pageAdapter);
 
@@ -45,28 +53,61 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
                 viewPager.setCurrentItem(tab.getPosition());
+
                 if (tab.getPosition() == 1) {
 
                     tabLayout.setBackgroundColor(ContextCompat.getColor(MainActivity.this,
-                            R.color.colorAccent));
+                            R.color.colorGreenApp));
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                         getWindow().setStatusBarColor(ContextCompat.getColor(MainActivity.this,
-                                R.color.colorAccent));
+                                R.color.colorGreenApp));
                     }
-                } else if (tab.getPosition() == 2) {
+                }
+
+                else if (tab.getPosition() == 2) {
                     tabLayout.setBackgroundColor(ContextCompat.getColor(MainActivity.this,
                             android.R.color.darker_gray));
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                         getWindow().setStatusBarColor(ContextCompat.getColor(MainActivity.this,
                                 android.R.color.darker_gray));
                     }
-                } else {
+                }
 
+                else if (tab.getPosition() == 3) {
                     tabLayout.setBackgroundColor(ContextCompat.getColor(MainActivity.this,
-                            R.color.colorPrimary));
+                            android.R.color.darker_gray));
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                         getWindow().setStatusBarColor(ContextCompat.getColor(MainActivity.this,
-                                R.color.colorPrimaryDark));
+                                android.R.color.darker_gray));
+                    }
+                }
+
+                else if (tab.getPosition() == 4) {
+                    tabLayout.setBackgroundColor(ContextCompat.getColor(MainActivity.this,
+                            android.R.color.darker_gray));
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                        getWindow().setStatusBarColor(ContextCompat.getColor(MainActivity.this,
+                                android.R.color.darker_gray));
+                    }
+                }
+
+                else if (tab.getPosition() == 5) {
+                    tabLayout.setBackgroundColor(ContextCompat.getColor(MainActivity.this,
+                            android.R.color.darker_gray));
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                        getWindow().setStatusBarColor(ContextCompat.getColor(MainActivity.this,
+                                android.R.color.darker_gray));
+                    }
+                }
+
+
+                else {
+
+                    tabLayout.setBackgroundColor(ContextCompat.getColor(MainActivity.this,
+                            R.color.colorGreenApp));
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                        getWindow().setStatusBarColor(ContextCompat.getColor(MainActivity.this,
+                                R.color.colorGreenApp));
                     }
                 }
             }
