@@ -28,7 +28,7 @@ import me.vshat.androidserver.service.ServerService;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class ChatFragment extends Fragment {
+public class HolFragment extends Fragment {
 
 
     //UMDOM1
@@ -50,7 +50,7 @@ public class ChatFragment extends Fragment {
 
 
 
-        return inflater.inflate(R.layout.fragment_chat, container, false);
+        return inflater.inflate(R.layout.fragment_hol, container, false);
     }
 
 
