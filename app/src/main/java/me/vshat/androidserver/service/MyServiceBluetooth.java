@@ -28,10 +28,15 @@ import me.vshat.androidserver.event.BluetoothEvent;
 import me.vshat.androidserver.event.ClientEvent;
 import me.vshat.androidserver.event.ServerEvent;
 
+import static me.vshat.androidserver.service.NotificationHelper.CHANNEL_1_ID;
+
+
 public class MyServiceBluetooth extends Service {
     private final static String TAG = MyServiceBluetooth.class.getSimpleName();
     final String LOG_TAG = "myLogs";
 
+    //Notification1
+    private NotificationHelper notificationHelper;
     //Notification2
     private NotificationManagerCompat notificationManager;
 
@@ -230,27 +235,28 @@ public class MyServiceBluetooth extends Service {
 
 
         if(event.getData().equals("B")) {
-            Notification notification = new NotificationCompat.Builder(this, NotificationService.CHANNEL_1_ID)
+            //Notification1
+//            notificationHelper = new NotificationHelper(this);
+//            startForeground(NotificationHelper.NOTIFICATION_ID,
+//                    notificationHelper.createNotification("Сервер работает"));
+
+            //Notification2
+            Notification notification = new NotificationCompat.Builder(this, CHANNEL_1_ID)
                     .setSmallIcon(R.drawable.iconsinfo)
                     .setContentTitle("B")
                     .setContentText("Работает B")
                     .setPriority(NotificationCompat.PRIORITY_HIGH)
                     .setCategory(NotificationCompat.CATEGORY_MESSAGE)
                     .build();
-
             notificationManager.notify(1, notification);
         }
 
-        Log.e(LOG_TAG, "***BluetoothService " + event.getData() + "***");
+        Log.e(LOG_TAG, "***MyServiceBluetooth_onEvent " + event.getData() + "***");
         if (myThreadConnected != null) {
             byte[] bytesToSend = event.getData().getBytes();
             myThreadConnected.write(bytesToSend);
         }
-
-
     }
-
-
 
     void sendDataBluetooth(){
         if (myThreadConnected != null) {

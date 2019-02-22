@@ -108,7 +108,7 @@ public class ServerService extends Service implements OnServerStateChangedListen
     public void onEvent(ClientEvent event) {
         EventBus.getDefault().postSticky(new ServerEvent(event.getData()));
 
-        Log.e(LOG_TAG, "***5555" + event.getData() + "***");
+        Log.e(LOG_TAG, "***ServerService_onEvent " + event.getData() + "***");
     }
 
 //    //Bluetooth данные РАБОТАЕТ

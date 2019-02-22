@@ -94,10 +94,12 @@ public class Server extends Thread{
                 out.flush();
 
         }
+        else{
+            out.write(word + "\n");
+            out.flush();
+        }
 
 
-        out.write(word + "\n");
-        out.flush();
         //EventBus.getDefault().postSticky(new ServerEvent(word));
         EventBus.getDefault().post(new ClientEvent(word));
 

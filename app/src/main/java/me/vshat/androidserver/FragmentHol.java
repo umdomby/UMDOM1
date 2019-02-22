@@ -46,9 +46,6 @@ public class FragmentHol extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         setHasOptionsMenu(true);
-
-
-
         return inflater.inflate(R.layout.fragment_hol, container, false);
     }
 
@@ -72,7 +69,7 @@ public class FragmentHol extends Fragment {
             public void onClick(View view) {
                 if(serverState == ServerState.RUNNING) {
                     ServerService.interrupt(); //прерывание
-                    getActivity().stopService(new Intent(getActivity(), MyServiceBluetooth.class));
+                    //getActivity().stopService(new Intent(getActivity(), MyServiceBluetooth.class));
 
                 } else {
                     ServerService.start(getActivity());
@@ -81,7 +78,6 @@ public class FragmentHol extends Fragment {
                 }
             }
         });
-
     }
 
     @Override
@@ -99,7 +95,6 @@ public class FragmentHol extends Fragment {
             buttonControl.setText("OFFLINE");
         }
     }
-
 
     private void detectStatus() {
         if(!ServerService.isRunning()) {
@@ -119,7 +114,7 @@ public class FragmentHol extends Fragment {
     @Subscribe(sticky = true, threadMode = ThreadMode.MAIN)
     public void onEvent(ServerEvent event) {
         //textViewResponse.setText("Ответ сервиса: " + event.getData());
-        //textServerClient.setText("Данные клиента: " + event.getData());
+        textServerClient.setText("Данные клиента: " + event.getData());
     }
 
     //Таймер
@@ -146,5 +141,4 @@ public class FragmentHol extends Fragment {
         String text = "B";
         EventBus.getDefault().post(new ClientEvent(text));
     }
-
 }

@@ -1,6 +1,5 @@
 package me.vshat.androidserver;
 
-
 import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.TabItem;
@@ -25,15 +24,12 @@ public class MainActivity extends AppCompatActivity {
     TabItem tabBase;
     TabItem tabOutside;
 
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         getSupportActionBar().hide();
         setContentView(R.layout.activity_main);
         //setSupportActionBar(toolbar);
-
 
         tabLayout = findViewById(R.id.tablayout);
         tabChats = findViewById(R.id.tabChats);
@@ -99,7 +95,6 @@ public class MainActivity extends AppCompatActivity {
                                 android.R.color.darker_gray));
                     }
                 }
-
 
                 else {
 

@@ -10,6 +10,11 @@ import android.support.v4.app.NotificationCompat;
 
 public class NotificationHelper {
 
+    //Notification2
+    public static final String CHANNEL_1_ID = "channel1";
+
+
+    //Notification1
     public static final int NOTIFICATION_ID = 1;
     private static final String CHANNEL_PREFIX = NotificationHelper.class.getCanonicalName();
     private static final String CHANNEL_ID = CHANNEL_PREFIX + "default_id";
@@ -40,6 +45,8 @@ public class NotificationHelper {
 
     @TargetApi(Build.VERSION_CODES.O)
     private void createNotificationChannel() {
+
+        //Notification1
         NotificationManager notificationManager =
                 (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
 
@@ -54,6 +61,17 @@ public class NotificationHelper {
         notificationChannel.enableVibration(true);
         notificationChannel.setSound(null, null);
         notificationManager.createNotificationChannel(notificationChannel);
+
+
+
+        //Notification2
+        NotificationChannel channel1 = new NotificationChannel(CHANNEL_1_ID,
+                "Channel 1",
+                NotificationManager.IMPORTANCE_HIGH
+        );
+        channel1.setDescription("This is Channel 1");
+        //NotificationManager manager = getSystemService(NotificationManager.class);
+        notificationManager.createNotificationChannel(channel1);
     }
 
 }
