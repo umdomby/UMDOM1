@@ -2,6 +2,7 @@ package me.vshat.androidserver;
 
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -27,24 +28,21 @@ import me.vshat.androidserver.service.ServerService;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class FragmentHol extends Fragment {
+public class FragmentHol extends Fragment  {
 
-
+    String[] sbprintArrayStr;
     //UMDOM1
     private TextView textViewStatus;
-    private Button buttonControl;
-    ImageButton ImageButton2, ImageButton3;
-    private TextView textViewTimer;
-    private TextView textBluetooth;
-    private TextView textViewResponse;
+    private Button buttonControl, button1, textViewButton1, textViewButton2, textViewButton3;
+    ImageButton ImageButton1, ImageButton2, ImageButton3, ImageButtonPir1;
     private ServerState serverState;
-    private TextView textServerClient;
-    boolean flag2 = false, flag3 = false;
-
+    private TextView textServerClient, textView1, textView2, textBluetooth, textView4;
+    boolean flag2 = false, flag3 = false,flagImageButton1 = true, flagImageButton2 = true, flagImageButton3 = true, flagImageButtonPir1 = true;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
+
         setHasOptionsMenu(true);
         return inflater.inflate(R.layout.fragment_hol, container, false);
     }
@@ -53,15 +51,30 @@ public class FragmentHol extends Fragment {
     @Override
     public void onStart(){
         super.onStart();
-
         EventBus.getDefault().register(this);
 
         textViewStatus = getActivity().findViewById(R.id.tvStatus);
         textBluetooth = getActivity().findViewById(R.id.textBluetooth);
         buttonControl = getActivity().findViewById(R.id.btnControl);
+
         //textViewTimer = getActivity().findViewById(R.id.tvTimer);
         //textViewResponse = getActivity().findViewById(R.id.tvResponse);
+
         textServerClient = getActivity().findViewById(R.id.textServerClient);
+
+        textView1 = getActivity().findViewById(R.id.textView1); //температура
+        textView2 = getActivity().findViewById(R.id.textView2); //влажность
+        textView4 = getActivity().findViewById(R.id.textView4); //газ1
+
+        textViewButton1 = getActivity().findViewById(R.id.textViewButton1);
+        textViewButton2 = getActivity().findViewById(R.id.textViewButton2);
+        textViewButton3 = getActivity().findViewById(R.id.textViewButton3);
+
+        ImageButtonPir1 = getActivity().findViewById(R.id.ImageButtonPir1);
+
+        ImageButton1 = getActivity().findViewById(R.id.ImageButton1);
+        ImageButton2 = getActivity().findViewById(R.id.ImageButton2);
+        ImageButton3 = getActivity().findViewById(R.id.ImageButton3);
         detectStatus();
 
         buttonControl.setOnClickListener(new View.OnClickListener() {
@@ -69,12 +82,140 @@ public class FragmentHol extends Fragment {
             public void onClick(View view) {
                 if(serverState == ServerState.RUNNING) {
                     ServerService.interrupt(); //прерывание
-                    //getActivity().stopService(new Intent(getActivity(), MyServiceBluetooth.class));
-
+                    getActivity().stopService(new Intent(getActivity(), MyServiceBluetooth.class));
                 } else {
                     ServerService.start(getActivity());
 
                     getActivity().startService(new Intent(getActivity(), MyServiceBluetooth.class));
+                }
+            }
+        });
+
+
+        //включение на оповещение
+        ImageButtonPir1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (flagImageButtonPir1 == false) {
+                    String text = "Pir10";
+                    EventBus.getDefault().post(new ClientEvent(text));
+                    ImageButtonPir1.setImageResource(R.drawable.iconsmotion);
+                    flagImageButtonPir1 = true;
+                }
+                else {
+                    String text = "Pir11";
+                    EventBus.getDefault().post(new ClientEvent(text));
+                    ImageButtonPir1.setImageResource(R.drawable.iconsmotiong);
+                    flagImageButtonPir1 = false;
+                }
+            }
+        });
+
+
+        textViewButton1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (flagImageButton1 == false) {
+                    String text = "b";
+                    EventBus.getDefault().post(new ClientEvent(text));
+                    ImageButton1.setImageResource(R.drawable.iconsonoff60);
+                    flagImageButton1 = true;
+                }
+                else {
+                    String text = "B";
+                    EventBus.getDefault().post(new ClientEvent(text));
+                    ImageButton1.setImageResource(R.drawable.iconsonoff60g);
+                    flagImageButton1 = false;
+                }
+            }
+        });
+
+        textViewButton2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (flagImageButton2 == false) {
+                    String text = "c";
+                    EventBus.getDefault().post(new ClientEvent(text));
+                    ImageButton2.setImageResource(R.drawable.iconsonoff60);
+                    flagImageButton2 = true;
+                }
+                else {
+                    String text = "C";
+                    EventBus.getDefault().post(new ClientEvent(text));
+                    ImageButton2.setImageResource(R.drawable.iconsonoff60g);
+                    flagImageButton2 = false;
+                }
+            }
+        });
+
+        textViewButton3.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (flagImageButton3 == false) {
+                    String text = "d";
+                    EventBus.getDefault().post(new ClientEvent(text));
+                    ImageButton3.setImageResource(R.drawable.iconsonoff60);
+                    flagImageButton3 = true;
+                }
+                else {
+                    String text = "D";
+                    EventBus.getDefault().post(new ClientEvent(text));
+                    ImageButton3.setImageResource(R.drawable.iconsonoff60g);
+                    flagImageButton3 = false;
+                }
+            }
+        });
+
+        ImageButton1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (flagImageButton1 == false) {
+                    String text = "b";
+                    EventBus.getDefault().post(new ClientEvent(text));
+                    ImageButton1.setImageResource(R.drawable.iconsonoff60);
+                    flagImageButton1 = true;
+                }
+                else {
+                    String text = "B";
+                    EventBus.getDefault().post(new ClientEvent(text));
+                    ImageButton1.setImageResource(R.drawable.iconsonoff60g);
+                    flagImageButton1 = false;
+                }
+            }
+        });
+
+        ImageButton2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (flagImageButton2 == false) {
+                    String text = "c";
+                    EventBus.getDefault().post(new ClientEvent(text));
+                    ImageButton2.setImageResource(R.drawable.iconsonoff60);
+                    flagImageButton2 = true;
+                }
+                else {
+                    String text = "C";
+                    EventBus.getDefault().post(new ClientEvent(text));
+                    ImageButton2.setImageResource(R.drawable.iconsonoff60g);
+                    flagImageButton2 = false;
+                }
+            }
+        });
+
+        ImageButton3.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (flagImageButton3 == false) {
+                    String text = "d";
+                    EventBus.getDefault().post(new ClientEvent(text));
+                    ImageButton3.setImageResource(R.drawable.iconsonoff60);
+                    flagImageButton3 = true;
+                }
+                else {
+                    String text = "D";
+                    EventBus.getDefault().post(new ClientEvent(text));
+                    ImageButton3.setImageResource(R.drawable.iconsonoff60g);
+                    flagImageButton3 = false;
                 }
             }
         });
@@ -115,6 +256,34 @@ public class FragmentHol extends Fragment {
     public void onEvent(ServerEvent event) {
         //textViewResponse.setText("Ответ сервиса: " + event.getData());
         textServerClient.setText("Данные клиента: " + event.getData());
+        switch (event.getData()) {
+            case ("b"):
+                ImageButton1.setImageResource(R.drawable.iconsonoff60);
+                flagImageButton1 = true;
+                break;
+            case ("B"):
+                ImageButton1.setImageResource(R.drawable.iconsonoff60g);
+                flagImageButton1 = false;
+                break;
+            case ("c"):
+                ImageButton2.setImageResource(R.drawable.iconsonoff60);
+                flagImageButton2 = true;
+                break;
+            case ("C"):
+                ImageButton2.setImageResource(R.drawable.iconsonoff60g);
+                flagImageButton2 = false;
+                break;
+            case ("d"):
+                ImageButton3.setImageResource(R.drawable.iconsonoff60);
+                flagImageButton3 = true;
+                break;
+            case ("D"):
+                ImageButton3.setImageResource(R.drawable.iconsonoff60g);
+                flagImageButton3 = false;
+                break;
+                default:
+                    break;
+        }
     }
 
     //Таймер
@@ -128,11 +297,50 @@ public class FragmentHol extends Fragment {
     @Subscribe(sticky = true, threadMode = ThreadMode.MAIN)
     public void onEvent(BluetoothEvent event) {
         textBluetooth.setText("Bluetooth: " + event.getData());
+
+        sbprintArrayStr = event.getData().split(",");
+                        if(sbprintArrayStr[1].equals("b")) {
+                            ImageButton1.setImageResource(R.drawable.iconsonoff60);
+                            flagImageButton1 = true;
+                        }
+                        if(sbprintArrayStr[1].equals("B")){
+                            ImageButton1.setImageResource(R.drawable.iconsonoff60g);
+                            flagImageButton1 = false;
+                        }
+                        if(sbprintArrayStr[2].equals("c")) {
+                            ImageButton2.setImageResource(R.drawable.iconsonoff60);
+                            flagImageButton2 = true;
+                        }
+                        if(sbprintArrayStr[2].equals("C")) {
+                            ImageButton2.setImageResource(R.drawable.iconsonoff60g);
+                            flagImageButton2 = false;
+                        }
+                        if(sbprintArrayStr[3].equals("d")) {
+                            ImageButton3.setImageResource(R.drawable.iconsonoff60);
+                            flagImageButton3 = true;
+                        }
+                        if(sbprintArrayStr[3].equals("D")) {
+                            ImageButton3.setImageResource(R.drawable.iconsonoff60g);
+                            flagImageButton3 = false;
+                        }
+
+                        if(sbprintArrayStr[14].equals("0")) {
+                            textView4.setText("NO");
+                            textView4.setBackgroundColor(Color.parseColor("#ff0000"));
+                        }
+
+                        if(sbprintArrayStr[14].equals("1")) {
+                            textView4.setText("OK");
+                            textView4.setBackgroundColor(Color.parseColor("#22ae54"));
+                        }
+
+                        textView1.setText(sbprintArrayStr[9].substring(0,2));
+                        textView2.setText(sbprintArrayStr[10].substring(0,2) + "%");
     }
 
     //Опубликовать события
     public void onActionClick(View view) {
-        String text = "b";//((Button) view).getText().toString();
+        String text = "b";
         EventBus.getDefault().post(new ClientEvent(text));
     }
 
@@ -141,4 +349,5 @@ public class FragmentHol extends Fragment {
         String text = "B";
         EventBus.getDefault().post(new ClientEvent(text));
     }
+
 }

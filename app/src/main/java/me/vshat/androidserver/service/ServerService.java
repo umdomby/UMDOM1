@@ -19,7 +19,6 @@ import me.vshat.androidserver.server.ServerState;
 import me.vshat.androidserver.server.ServerStateChangedEvent;
 
 
-//
 public class ServerService extends Service implements OnServerStateChangedListener {
     private final static String TAG = ServerService.class.getSimpleName();
     final String LOG_TAG = "myLogs";
@@ -27,10 +26,8 @@ public class ServerService extends Service implements OnServerStateChangedListen
     private static volatile boolean running = false;
     private static ServerService instance;
 
-
     private NotificationHelper notificationHelper;
     private Server server;
-
 
     public static void start(Context context) {
         Intent starter = new Intent(context, ServerService.class);
@@ -55,29 +52,18 @@ public class ServerService extends Service implements OnServerStateChangedListen
         EventBus.getDefault().register(this);
     }
 
-
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         running = true;
         //объект уведомления
         notificationHelper = new NotificationHelper(this);
-
-        //служба уведомляет систему о том, что служба обладает высоким приоритетом
-        //службы переднего плана требуют, чтобы вы размещали уведомление, которое сообщало
-        //бы пользователю о том, что служба работает.
         startForeground(NotificationHelper.NOTIFICATION_ID,
                 notificationHelper.createNotification("Сервер работает"));
-
-        //запуск сервера в service
         main();
 
         return START_NOT_STICKY;
     }
 
-    //Выполнение приёмником широковещательных сообщений (broadcast receiver) метода onReceive()
-    // тоже относится к ним же. Это повышение приоритета необходимо для того, чтобы сделать данные
-    // методы жизненного цикла атомарными и дать возможность
-    // каждому компоненту выполнить их без того, чтобы быть уничтоженным системой.
     public void onReceive(){
         //приёмник широковещательных сообщений
         //broadcast receiver

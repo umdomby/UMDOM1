@@ -12,7 +12,7 @@ public class NotificationHelper {
 
     //Notification2
     public static final String CHANNEL_1_ID = "channel1";
-
+    public static final String CHANNEL_2_ID = "channel2";
 
     //Notification1
     public static final int NOTIFICATION_ID = 1;
@@ -37,7 +37,7 @@ public class NotificationHelper {
         return new NotificationCompat.Builder(context, CHANNEL_ID)
                 .setChannelId(CHANNEL_ID)
                 .setContentText(text)
-                .setContentTitle("AndroidServer")
+                .setContentTitle("UMDOM1")
                 .setSound(null)
                 .setOngoing(true)
                 .build();
@@ -54,7 +54,7 @@ public class NotificationHelper {
             return;
         }
 
-        NotificationChannel notificationChannel = new NotificationChannel(CHANNEL_ID, CHANNEL_NAME,
+        NotificationChannel notificationChannel = new NotificationChannel(CHANNEL_ID, "Запуск сервера",
                 NotificationManager.IMPORTANCE_DEFAULT);
 
         notificationChannel.enableLights(false);
@@ -65,13 +65,23 @@ public class NotificationHelper {
 
 
         //Notification2
-        NotificationChannel channel1 = new NotificationChannel(CHANNEL_1_ID,
-                "Channel 1",
-                NotificationManager.IMPORTANCE_HIGH
-        );
-        channel1.setDescription("This is Channel 1");
-        //NotificationManager manager = getSystemService(NotificationManager.class);
-        notificationManager.createNotificationChannel(channel1);
-    }
+
+            NotificationChannel channel1 = new NotificationChannel(CHANNEL_1_ID,
+                    "Оповещение газа",
+                    NotificationManager.IMPORTANCE_HIGH
+            );
+            channel1.setDescription("This is Channel 1");
+
+            NotificationChannel channel2 = new NotificationChannel(CHANNEL_2_ID,
+                    "Оповещение движения",
+                    NotificationManager.IMPORTANCE_HIGH
+            );
+            channel2.setDescription("This is Channel 2");
+
+            //NotificationManager manager = getSystemService(NotificationManager.class);
+            notificationManager.createNotificationChannel(channel1);
+            notificationManager.createNotificationChannel(channel2);
+        }
+
 
 }

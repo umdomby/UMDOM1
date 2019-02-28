@@ -5,6 +5,7 @@ import android.app.Service;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothSocket;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Handler;
@@ -29,21 +30,21 @@ import me.vshat.androidserver.event.ClientEvent;
 import me.vshat.androidserver.event.ServerEvent;
 
 import static me.vshat.androidserver.service.NotificationHelper.CHANNEL_1_ID;
+import static me.vshat.androidserver.service.NotificationHelper.CHANNEL_2_ID;
 
 
 public class MyServiceBluetooth extends Service {
     private final static String TAG = MyServiceBluetooth.class.getSimpleName();
     final String LOG_TAG = "myLogs";
 
-    //Notification1
-    private NotificationHelper notificationHelper;
     //Notification2
     private NotificationManagerCompat notificationManager;
+    boolean flagNotificationGaz1 = false;
+    boolean flagNotificationPir1 = false,flagNotificationPir1OnOff = false;
 
     //TCP/IP Server
     final Handler handler = new Handler();
     private boolean end = false;
-
 
     //---Bluetooth---
     private static final int REQUEST_ENABLE_BT = 1;
@@ -85,18 +86,16 @@ public class MyServiceBluetooth extends Service {
     public int onStartCommand(Intent intent, int flags, int startId) {
         Log.d(LOG_TAG, "MyServiceBluetooth onStartCommand, name = " + intent.getStringExtra("name"));
         //readFlags(flags);
-
         //---Bluetooth---
         setup();
         //---End Bluetooth---
-
         return Service.START_STICKY;
     }
 
-    public void onDestroy() {
-        super.onDestroy();
-        if (myThreadConnectBTdevice != null) myThreadConnectBTdevice.cancel();
-        Log.d(LOG_TAG, "onDestroy");
+    public static void start(Context context) {
+        //Notification1
+        Intent starter = new Intent(context, ServerService.class);
+        context.startService(starter);
     }
 
     private class ThreadConnectBTdevice extends Thread { // Поток для коннекта с Bluetooth
@@ -194,17 +193,39 @@ public class MyServiceBluetooth extends Service {
                         Log.d(LOG_TAG, "***MyServiceBluetooth: " + sbprint + "***");
 
                         sbprintArrayStr = sbprint.split(",");
+
+                        if(sbprintArrayStr[14].equals("0")){
+                            if(flagNotificationGaz1 == false){
+                                notificationGaz1();
+                                flagNotificationGaz1 = true;
+                            }
+                        }
+                        if(sbprintArrayStr[14].equals("1")){
+                            flagNotificationGaz1 = false;
+                        }
+
+                        if(sbprintArrayStr[15].equals("1")){
+                            if(flagNotificationPir1 == false && flagNotificationPir1OnOff == true){
+                                notificationPir1();
+                                flagNotificationPir1 = true;
+                            }
+                        }
+                        if(sbprintArrayStr[15].equals("0")){
+                            flagNotificationPir1 = false;
+                        }
+
+
 //                        if(sbprintArrayStr[1].equals("b")) {
-//                            ImageButton2.setImageResource(R.drawable.one);
+//                            ImageButton1.setImageResource(R.drawable.iconsonoff60g);
 //                        }
 //                        if(sbprintArrayStr[1].equals("B")){
-//                            ImageButton2.setImageResource(R.drawable.oneg);
+//                            ImageButton1.setImageResource(R.drawable.iconsonoff60g);
 //                        }
 //                        if(sbprintArrayStr[2].equals("c")) {
-//                            ImageButton3.setImageResource(R.drawable.two);
+//                            ImageButton2.setImageResource(R.drawable.iconsonoff60g);
 //                        }
 //                        if(sbprintArrayStr[2].equals("C")) {
-//                            ImageButton3.setImageResource(R.drawable.twog);
+//                            ImageButton2.setImageResource(R.drawable.iconsonoff60g);
 //                        }
 
                         //отправляем данные в активити
@@ -229,27 +250,23 @@ public class MyServiceBluetooth extends Service {
         }
     }
 
+    //Приход данных------------------------Д-А-Н-Н-Ы-Е---------------------------------
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onEvent(ClientEvent event) {
         EventBus.getDefault().postSticky(new ServerEvent(event.getData()));
 
+        if(event.getData().equals("Pir10")) {
 
-        if(event.getData().equals("B")) {
-            //Notification1
-//            notificationHelper = new NotificationHelper(this);
-//            startForeground(NotificationHelper.NOTIFICATION_ID,
-//                    notificationHelper.createNotification("Сервер работает"));
-
-            //Notification2
-            Notification notification = new NotificationCompat.Builder(this, CHANNEL_1_ID)
-                    .setSmallIcon(R.drawable.iconsinfo)
-                    .setContentTitle("B")
-                    .setContentText("Работает B")
-                    .setPriority(NotificationCompat.PRIORITY_HIGH)
-                    .setCategory(NotificationCompat.CATEGORY_MESSAGE)
-                    .build();
-            notificationManager.notify(1, notification);
+            flagNotificationPir1OnOff = false;
         }
+        if(event.getData().equals("Pir11")) {
+
+            flagNotificationPir1OnOff = true;
+        }
+
+//        if(event.getData().equals("B")) {
+//
+//        }
 
         Log.e(LOG_TAG, "***MyServiceBluetooth_onEvent " + event.getData() + "***");
         if (myThreadConnected != null) {
@@ -263,4 +280,28 @@ public class MyServiceBluetooth extends Service {
         byte[] bytesToSend = "b".getBytes();
         myThreadConnected.write(bytesToSend);}
     }
+
+    void notificationGaz1(){
+       Notification notification = new NotificationCompat.Builder(this, CHANNEL_1_ID)
+                .setSmallIcon(R.drawable.iconsinfo)
+                .setContentTitle("Сработка газа")
+                .setContentText("Наличие газа в холле")
+                .setPriority(NotificationCompat.PRIORITY_HIGH)
+                .setCategory(NotificationCompat.CATEGORY_MESSAGE)
+                .build();
+        notificationManager.notify(1, notification);
+    }
+
+    void notificationPir1(){
+
+        Notification notification = new NotificationCompat.Builder(this, CHANNEL_2_ID)
+                .setSmallIcon(R.drawable.iconsinfo)
+                .setContentTitle("Сработка движения 1")
+                .setContentText("Наличие движения в холле")
+                .setPriority(NotificationCompat.PRIORITY_HIGH)
+                .setCategory(NotificationCompat.CATEGORY_MESSAGE)
+                .build();
+        notificationManager.notify(2, notification);
+    }
+
 }
