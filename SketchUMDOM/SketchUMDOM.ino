@@ -5,7 +5,7 @@ flagRelay5=false,flagRelay6=false,flagRelay7=false,flagRelay8=false;
 unsigned long timing1;
 
 char incomingbyteChar1;
-String myStrings[] ={"a","b","c","d","e","f","g","h","i","DHT1","DHT1","DHT2","DHT2","G1","G2","M1"};
+String myStrings[] ={"a","b","c","d","e","f","g","h","i","DHT1","DHT1","DHT2","DHT2","G1","G2","M1","OnOffAlarmHoll(16)","colorAlarmHoll(17)"};
 
 //DHT
 #include "DHT.h"
@@ -17,20 +17,18 @@ String myStrings[] ={"a","b","c","d","e","f","g","h","i","DHT1","DHT1","DHT2","D
 DHT dht(DHTPIN, DHTTYPE);
 DHT dht2(DHTPIN2, DHTTYPE2);
 
-//Gaz
-int pushGaz1 = 4;
-int pushGaz2 = 5;
 
-//Motion
-#define pirPin 6
+int pinGazHoll = 4;
+int pinGazBedroom = 5;
+#define pinPirHoll 6
+
+int dataGazHoll = 0 ;
+int dataGazBedroom = 0;
+int dataPirHoll = 0;
 
 unsigned long currentMillis;
 String SerialData;
 unsigned long previousMillis1 = 0;
-int dataGaz1 = 0 ;
-int dataGaz2 = 0;
-int pirVal = 0;
-
 
 void setup() 
  {
@@ -52,20 +50,20 @@ void setup()
    digitalWrite(27,HIGH);
    digitalWrite(28,HIGH);
    digitalWrite(29,HIGH);
-   pinMode(pushGaz1, INPUT);
-   pinMode(pushGaz2, INPUT);
+   pinMode(pinGazHoll, INPUT);
+   pinMode(pinGazBedroom, INPUT);
    dht.begin();
    dht2.begin();   
-   pinMode(pirPin, INPUT);
+   pinMode(pinPirHoll, INPUT);
    
  }
 
 void loop() 
  {
    currentMillis = millis();
-   dataGaz1 = digitalRead(pushGaz1);
-   dataGaz2 = digitalRead(pushGaz2);
-   pirVal = digitalRead(pirPin);
+   dataGazHoll = digitalRead(pinGazHoll); //ХОЛЛ
+   dataGazBedroom = digitalRead(pinGazBedroom);
+   dataPirHoll = digitalRead(pinPirHoll); //ХОЛЛ
 
 
     if(Serial1.available() > 0 ) // есть ли что-то в буфере
@@ -133,14 +131,14 @@ void loop()
            flagRelay4 = true; }
            
 //Relay5
-        if (incomingbyteChar1 == 'f'){   
+        if (incomingbyteChar1 == 'l'){   
            digitalWrite(26,HIGH);
-           myStrings[5] = "f";
+           myStrings[5] = "l";
            flagRelay5 = false; 
         }
-        if (incomingbyteChar1 == 'F'){      
+        if (incomingbyteChar1 == 'L'){      
            digitalWrite(26,LOW);
-           myStrings[5] = "F";
+           myStrings[5] = "L";
            flagRelay5 = true;} 
             
 //Relay6
@@ -175,23 +173,34 @@ void loop()
            digitalWrite(29,LOW);
            myStrings[8] = "I";
            flagRelay8 = true;}  
-    } 
+           
+//OnOff сигнализация Холл
+         if (incomingbyteChar1 == 'e'){   
+           myStrings[16] = "e";}
+         if (incomingbyteChar1 == 'E'){      
+           myStrings[16] = "E";}
+//оповещение движения цветом в Холле
+         if (incomingbyteChar1 == 'f'){   
+           myStrings[17] = "f";}
+         if (incomingbyteChar1 == 'F'){      
+           myStrings[17] = "F";}     
+} 
 
 
 myStrings[9] = dht.readTemperature();
 myStrings[10] = dht.readHumidity();
 myStrings[11] = dht2.readTemperature();
 myStrings[12] = dht2.readHumidity();
-myStrings[13] = dataGaz1;
-myStrings[14] = dataGaz2;
-myStrings[15] = pirVal;
+myStrings[13] = dataGazBedroom;
+myStrings[14] = dataGazHoll;
+myStrings[15] = dataPirHoll;
 
 
 
 
                   if (currentMillis - previousMillis1 >= 500){
               previousMillis1 = currentMillis;             
-                    for (int i = 0; i < 16; i++){        
+                    for (int i = 0; i < 18; i++){        
                     SerialData += myStrings[i];
                     SerialData += ",";   
                     }

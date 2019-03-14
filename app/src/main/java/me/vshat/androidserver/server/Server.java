@@ -17,12 +17,13 @@ import java.io.OutputStreamWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
 
+import me.vshat.androidserver.FragmentSettings;
 import me.vshat.androidserver.event.BluetoothEvent;
 import me.vshat.androidserver.event.ClientEvent;
 
 public class Server extends Thread{
 
-    public static final int PORT = 9002;
+    public static int PORT;
     String bluetoothData;
     private ServerSocket server;
     private Socket clientSocket;
@@ -47,6 +48,7 @@ public class Server extends Thread{
     @Override
     public void run() {
         try {
+            PORT = FragmentSettings.dataPort();
             server = new ServerSocket(PORT);
             server.setReuseAddress(true);
             listener.onServerStateChanged(new ServerStateChangedEvent(ServerState.RUNNING));
@@ -92,55 +94,14 @@ public class Server extends Thread{
         if(word.equals("X")){
                 out.write(bluetoothData + "\n");
                 out.flush();
-
         }
         else{
+            //out.write(word + "\n");
             out.write(word + "\n");
             out.flush();
         }
 
-
-        //EventBus.getDefault().postSticky(new ServerEvent(word));
         EventBus.getDefault().post(new ClientEvent(word));
-
-//        switch (word) {
-//            //отправляем данные в MyServiceBluetooth
-//            case "b":
-//
-//                out.write("b");
-//                out.flush();
-//                EventBus.getDefault().post(new ClientEvent("b"));
-//                break;
-//            case "B":
-//
-//                out.write("B");
-//                out.flush();
-//                EventBus.getDefault().post(new ClientEvent("B"));
-//                break;
-//            case "c":
-//
-//                out.write("c");
-//                out.flush();
-//                EventBus.getDefault().post(new ClientEvent("c"));
-//                break;
-//            case "C":
-//
-//                out.write("C");
-//                out.flush();
-//                EventBus.getDefault().post(new ClientEvent("C"));
-//                break;
-//            case "X":
-//                //EventBus.getDefault().post(new ClientEvent("X"));
-//
-//                Log.e(LOG_TAG, "server Server: " + bluetoothData + "***");
-//                out.write(bluetoothData + "\n");
-//                out.flush();
-//
-//                break;
-//                default:
-//                    break;
-//        }
-
     }
 
     private void close(@Nullable Closeable... closeables) {

@@ -5,17 +5,15 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".MainActivity"
-     >
+    tools:context=".MainActivity">
 
 
     <android.support.v4.view.ViewPager
         android:id="@+id/viewPager"
-        android:layout_width="fill_parent"
+        android:layout_width="match_parent"
         android:layout_height="fill_parent"
-        android:orientation="vertical"
         android:layout_weight="1"
-        />
+        android:orientation="vertical" />
 
     <android.support.design.widget.TabLayout
         android:id="@+id/tablayout"
@@ -30,7 +28,7 @@
             android:id="@+id/tabChats"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="ХОЛЛ" />
+            android:text="КОМНАТЫ" />
 
         <android.support.design.widget.TabItem
             android:id="@+id/tabStatus"
@@ -42,7 +40,7 @@
             android:id="@+id/tabCalls"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="КОМНАТЫ" />
+            android:text="ХОЛЛ" />
 
         <android.support.design.widget.TabItem
             android:id="@+id/tabCanteen"
@@ -62,7 +60,15 @@
             android:layout_height="wrap_content"
             android:text="УЛИЦА" />
 
+        <android.support.design.widget.TabItem
+            android:id="@+id/tabSettings"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="НАСТРОЙКИ" />
+
     </android.support.design.widget.TabLayout>
+
+
 
 
 </LinearLayout>

@@ -93,7 +93,6 @@ public class ServerService extends Service implements OnServerStateChangedListen
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onEvent(ClientEvent event) {
         EventBus.getDefault().postSticky(new ServerEvent(event.getData()));
-
         Log.e(LOG_TAG, "***ServerService_onEvent " + event.getData() + "***");
     }
 

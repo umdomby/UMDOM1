@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".FragmentSettings"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="80dp">
+        <ImageButton
+            android:id="@+id/Settings"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_alignParentRight="true"
+            android:background="@android:color/transparent"
+            android:scaleType="centerCrop"
+            android:src="@drawable/setings" />
+
+        <EditText
+            android:id="@+id/txtBluetooth"
+            android:layout_width="245dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginBottom="10dp"
+            android:ems="10"
+            android:inputType="textPersonName"
+            android:text="Введите данные: Bluetooth и порт"
+            android:textSize="14sp" />
+
+    </RelativeLayout>
+
+
+    <EditText
+        android:id="@+id/dataBluetoothSettings"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:text="00:00:00:00:00:00">
+
+        <requestFocus></requestFocus>
+    </EditText>
+
+    <LinearLayout
+        android:id="@+id/linearLayout1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <Button
+            android:id="@+id/btnSave1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Save">
+        </Button>
+        <Button
+            android:id="@+id/btnLoad1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Load">
+        </Button>
+    </LinearLayout>
+
+    <EditText
+        android:id="@+id/dataPortSettings"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:text="0000">
+
+        <requestFocus></requestFocus>
+    </EditText>
+
+    <LinearLayout
+        android:id="@+id/linearLayout2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <Button
+            android:id="@+id/btnSave2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Save">
+        </Button>
+        <Button
+            android:id="@+id/btnLoad2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Load">
+        </Button>
+    </LinearLayout>
+
+</LinearLayout>

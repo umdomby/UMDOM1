@@ -24,6 +24,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.UUID;
 
+import me.vshat.androidserver.FragmentSettings;
 import me.vshat.androidserver.R;
 import me.vshat.androidserver.event.BluetoothEvent;
 import me.vshat.androidserver.event.ClientEvent;
@@ -39,12 +40,14 @@ public class MyServiceBluetooth extends Service {
 
     //Notification2
     private NotificationManagerCompat notificationManager;
-    boolean flagNotificationGaz1 = false;
-    boolean flagNotificationPir1 = false,flagNotificationPir1OnOff = false;
+
 
     //TCP/IP Server
     final Handler handler = new Handler();
     private boolean end = false;
+
+    //Settingss
+    FragmentSettings fs = new FragmentSettings();
 
     //---Bluetooth---
     private static final int REQUEST_ENABLE_BT = 1;
@@ -57,14 +60,20 @@ public class MyServiceBluetooth extends Service {
     final String UUID_STRING_WELL_KNOWN_SPP = "00001101-0000-1000-8000-00805F9B34FB";
     //private static String address = "00:21:13:04:96:D0";
     //private static String address = "98:D3:32:31:59:C6";
-    private static String address = "00:21:13:04:97:D8";
+
+    //public static String address = "00:21:13:04:97:D8";
+    public static String address;
     String sbprint;
+
+
+
     String[] sbprintArrayStr; //получение данных на планшет по bluetooth
     //---End Bluetooth---
 
     public void onCreate() {
         super.onCreate();
         Log.d(LOG_TAG, "onCreate");
+
         //---Bluetooth---
         if (!getPackageManager().hasSystemFeature(PackageManager.FEATURE_BLUETOOTH)) {
             Toast.makeText(this, "BLUETOOTH NOT support", Toast.LENGTH_LONG).show();
@@ -80,17 +89,20 @@ public class MyServiceBluetooth extends Service {
         EventBus.getDefault().register(this);
         //Notification2
         notificationManager = NotificationManagerCompat.from(this);
-
     }
 
     public int onStartCommand(Intent intent, int flags, int startId) {
         Log.d(LOG_TAG, "MyServiceBluetooth onStartCommand, name = " + intent.getStringExtra("name"));
         //readFlags(flags);
         //---Bluetooth---
+        address = FragmentSettings.dataBluetooth();
+        Log.d(LOG_TAG, "------------------------------------------------ " + address);
         setup();
+
         //---End Bluetooth---
         return Service.START_STICKY;
     }
+
 
     public static void start(Context context) {
         //Notification1
@@ -141,6 +153,13 @@ public class MyServiceBluetooth extends Service {
             }
         }
     }
+
+    //Получение адреса bluetooth
+//    @Subscribe(sticky = true, threadMode = ThreadMode.MAIN)
+//    public void onEvent(PreferencesEvent event) {
+//        //address = event.getData();
+//        Log.d(LOG_TAG, "DataBluetooth " + event.getData());
+//    }
 
     private void setup() {
         new Thread(new Runnable() {
@@ -194,43 +213,33 @@ public class MyServiceBluetooth extends Service {
 
                         sbprintArrayStr = sbprint.split(",");
 
+                        //оповещение газа в холле
                         if(sbprintArrayStr[14].equals("0")){
-                            if(flagNotificationGaz1 == false){
-                                notificationGaz1();
-                                flagNotificationGaz1 = true;
-                            }
-                        }
-                        if(sbprintArrayStr[14].equals("1")){
-                            flagNotificationGaz1 = false;
+                             notificationGaz1();
                         }
 
+                        //оповещение движение в холле[15], OnOffAlarmHoll[16]
                         if(sbprintArrayStr[15].equals("1")){
-                            if(flagNotificationPir1 == false && flagNotificationPir1OnOff == true){
-                                notificationPir1();
-                                flagNotificationPir1 = true;
+                            if(sbprintArrayStr[16].equals("E")){
+                                if(sbprintArrayStr[17].equals("F")){
+                                    if (myThreadConnected != null) {
+                                        byte[] bytesToSend = "F".getBytes();
+                                        myThreadConnected.write(bytesToSend);}
+                                }
+                                else {
+                                    //оповещение движение в Холле цветом
+                                    notificationPir1();
+                                    if (myThreadConnected != null) {
+                                        byte[] bytesToSend = "F".getBytes();
+                                        myThreadConnected.write(bytesToSend);}
+                                }
+
                             }
                         }
-                        if(sbprintArrayStr[15].equals("0")){
-                            flagNotificationPir1 = false;
-                        }
 
 
-//                        if(sbprintArrayStr[1].equals("b")) {
-//                            ImageButton1.setImageResource(R.drawable.iconsonoff60g);
-//                        }
-//                        if(sbprintArrayStr[1].equals("B")){
-//                            ImageButton1.setImageResource(R.drawable.iconsonoff60g);
-//                        }
-//                        if(sbprintArrayStr[2].equals("c")) {
-//                            ImageButton2.setImageResource(R.drawable.iconsonoff60g);
-//                        }
-//                        if(sbprintArrayStr[2].equals("C")) {
-//                            ImageButton2.setImageResource(R.drawable.iconsonoff60g);
-//                        }
-
-                        //отправляем данные в активити
+                        //отправляем данные
                         EventBus.getDefault().postSticky(new BluetoothEvent(sbprint));
-
 
                     }
                 } catch (IOException e) {
@@ -255,18 +264,7 @@ public class MyServiceBluetooth extends Service {
     public void onEvent(ClientEvent event) {
         EventBus.getDefault().postSticky(new ServerEvent(event.getData()));
 
-        if(event.getData().equals("Pir10")) {
-
-            flagNotificationPir1OnOff = false;
-        }
-        if(event.getData().equals("Pir11")) {
-
-            flagNotificationPir1OnOff = true;
-        }
-
-//        if(event.getData().equals("B")) {
-//
-//        }
+/////////////
 
         Log.e(LOG_TAG, "***MyServiceBluetooth_onEvent " + event.getData() + "***");
         if (myThreadConnected != null) {
@@ -275,11 +273,11 @@ public class MyServiceBluetooth extends Service {
         }
     }
 
-    void sendDataBluetooth(){
-        if (myThreadConnected != null) {
-        byte[] bytesToSend = "b".getBytes();
-        myThreadConnected.write(bytesToSend);}
-    }
+//    void sendDataBluetooth(){
+//        if (myThreadConnected != null) {
+//        byte[] bytesToSend = "b".getBytes();
+//        myThreadConnected.write(bytesToSend);}
+//    }
 
     void notificationGaz1(){
        Notification notification = new NotificationCompat.Builder(this, CHANNEL_1_ID)
@@ -302,6 +300,22 @@ public class MyServiceBluetooth extends Service {
                 .setCategory(NotificationCompat.CATEGORY_MESSAGE)
                 .build();
         notificationManager.notify(2, notification);
+    }
+
+
+    @Override
+    public void onDestroy() { // Закрытие приложения
+        super.onDestroy();
+
+//        if(myThreadConnectBTdevice!=null) myThreadConnectBTdevice.cancel();
+//        myThreadConnected.interrupt();
+//        myThreadConnectBTdevice.interrupt();
+//        myThreadConnected.interrupt();
+//        myThreadConnectBTdevice.interrupt();
+
+
+
+        Log.e(LOG_TAG, "***myThreadConnectBTdevice ЗАКРЫТ ");
     }
 
 }

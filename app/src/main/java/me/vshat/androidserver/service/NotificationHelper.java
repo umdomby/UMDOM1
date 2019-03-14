@@ -8,7 +8,7 @@ import android.content.Context;
 import android.os.Build;
 import android.support.v4.app.NotificationCompat;
 
-public class NotificationHelper {
+public class NotificationHelper  {
 
     //Notification2
     public static final String CHANNEL_1_ID = "channel1";
@@ -82,6 +82,7 @@ public class NotificationHelper {
             notificationManager.createNotificationChannel(channel1);
             notificationManager.createNotificationChannel(channel2);
         }
+
 
 
 }
